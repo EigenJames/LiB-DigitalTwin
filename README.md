@@ -13,10 +13,10 @@ This repository contains Jupyter notebooks and data for lithium-ion battery capa
 ## Contents
 
 - `discharge.csv`: Battery discharge data
-- `LiB Capacity prediciotn.ipynb`: Notebook for capacity prediction (note: filename has typo)
-- `LiB Capacity prediction readable.ipynb`: Readable version of capacity prediction notebook
-- `first test.ipynb`: Initial test notebook
-- `physical vs NN emperical.ipynb`: Comparison of physical vs neural network empirical models (note: filename has typo)
+- `01_Initial_Neural_Network_Test.ipynb`: Initial experimentation with neural networks for parameter adjustment (uses synthetic data)
+- `02_Capacity_Prediction_Development.ipynb`: Development notebook for LiB capacity prediction using NASA data, including physical models and neural networks
+- `03_Capacity_Prediction_Comprehensive_Analysis.ipynb`: Comprehensive, academic-style analysis of capacity prediction with detailed methodology and results
+- `04_Physical_vs_Empirical_NN_Comparison.ipynb`: Comparison between physical models and empirical neural network approaches for capacity prediction
 - `tuner_results/`: Hyperparameter tuning results for various models
   - `enhanced_lib_battery_tuning/`: Enhanced LiB battery tuning (30 trials)
   - `enhanced_residual_tuning/`: Enhanced residual tuning (25 trials)
