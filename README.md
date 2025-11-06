@@ -86,12 +86,39 @@ Each cycle followed a standardised **charge-then-discharge** protocol:
 
 ## Methodological Scope
 
-The notebooks explore the following modelling strata:
+This project implements and contrasts three distinct modeling paradigms for Li-ion battery degradation, with a focus on two primary prognostic tasks: **unseen cell generalization** and **time-series forecasting**.
 
-- **Physics-based baselines** implementing exponential-decay formulations parameterised by charge time, temperature, and cycle depth.
-- **Pure ML models** (dense neural networks) trained on engineered features for per-cycle capacity estimation.
-- **Hybrid pipelines** that initialise from physical priors and refine residuals via data-driven regressors.
-- **Visualization dashboards** highlighting degradation trajectories, error distributions, and parameter sensitivities.
+### 1. Physics-Based Baseline Model
+
+A first-principles model based on an exponential decay formulation provides an analytical baseline. Capacity \\(C\\) at cycle \\(i\\) is estimated as:
+\\[ C(i) = C_0 \\cdot e^{-k \\cdot T_c \\cdot i / t} \\]
+where \\(C_0\\) is initial capacity, \\(T_c\\) is cell temperature, \\(t\\) is charge time, and \\(k\\) is an empirical degradation constant. This model encodes fundamental domain knowledge but is limited in its ability to capture cell-specific, non-linear aging dynamics.
+
+### 2. Purely Data-Driven Neural Network (NN)
+
+A standard feedforward neural network (Dense NN) is trained to directly map engineered features (cycle number, temperature, mean voltage/current) to the battery's capacity. This approach serves as a pure empirical benchmark to assess the predictive power of the data alone, without physical priors.
+
+### 3. Unique ML Methodology: Residual-Enhanced Physical Model (Hybrid Approach)
+
+This is the core data-driven technique of the project, representing a form of **physics-informed machine learning**. The workflow is as follows:
+
+1. **Initial Prediction**: The physics-based model generates an initial capacity forecast. This prediction captures the primary exponential decay trend but contains systematic errors.
+2. **Residual Learning**: A neural network is trained specifically to predict the **residual error** between the physical model's output and the ground-truth experimental data.
+3. **Corrected Forecast**: The final, refined prediction is the sum of the physical model's output and the neural network's learned residual correction.
+   \\[ C_{\\text{final}} = C_{\\text{physical}} + \\text{NN}(X)_{\\text{residual}} \\]
+
+This hybrid model constrains the neural network, preventing it from learning non-physical behavior while leveraging its power to model complex, unmodeled degradation phenomena.
+
+### Prognostic Tasks Investigated
+
+The above models are evaluated against two critical battery management tasks:
+
+- **Unseen Cell Generalization**: To simulate deployment on a new battery, we employ a **Leave-One-Cell-Out (LOCO)** cross-validation strategy. The models are trained on data from N-1 cells and tested on the held-out cell. This rigorously assesses the model's ability to generalize beyond its training distribution and handle manufacturing variability.
+- **Time-Series Forecasting**: To simulate remaining useful life (RUL) prediction for an in-service battery, models are trained on the first *X%* of cycles for a given cell and evaluated on their ability to forecast the subsequent *(100-X)%* of cycles. This tests the model's capacity for long-term extrapolation.
+
+### Hyperparameter Optimization
+
+The neural network architectures are systematically optimized using **Keras Tuner** with a `RandomSearch` strategy. This ensures that model performance is not an artifact of arbitrary architectural choices and allows for reproducible, robust comparisons between the different modeling approaches.
 
 ## Getting Started
 
