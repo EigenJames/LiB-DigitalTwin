@@ -2,11 +2,6 @@
 
 This repository disseminates a reproducible workflow for analysing lithium-ion battery (LiB) degradation using both physics-guided and machine-learning (ML) approaches. The artefacts combine NASA Prognostics Center of Excellence (PCoE) datasets with neural forecasting pipelines to prototype a digital twin for cycle-level capacity fade.
 
-## Repository
-
-- **GitHub**: <https://github.com/EigenJames/lib-digital-twin-cycling-aging>
-- **Primary branch**: `master`
-
 ## Why Machine Learning Matters for LiB Research
 
 LiB aging dynamics are governed by coupled electrochemical, thermal, and mechanical processes that are only partially observable through laboratory measurements. First-principles models often require extensive parameter identification and can struggle with cell-to-cell variability and mission-profile heterogeneity. ML-based surrogates complement physics by:
@@ -65,6 +60,10 @@ Open any notebook in JupyterLab or VS Code with the Python kernel set to the cre
 ## Citation
 
 If you build upon this work, please cite the NASA dataset and relevant degradation modelling literature listed below.
+
+## License
+
+This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details. The MIT License permits free use, modification, and distribution, provided attribution is retained.
 
 ## References
 
