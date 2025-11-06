@@ -13,11 +13,67 @@ LiB aging dynamics are governed by coupled electrochemical, thermal, and mechani
 
 Hybrid workflows—where ML augments mechanistic priors—provide actionable forecasts for scheduling, warranty design, and safety diagnostics.
 
-## Dataset
+## Dataset: Experimental Protocol and Significance
 
-- **Source**: NASA PCoE Li-ion battery aging dataset (cells B0005, B0006, B0007, B0018).
-- **Composition**: 616 galvanostatic discharge cycles with measurements of capacity, voltage, current, and temperature at 6 Hz sampling frequency.
+### Data Provenance
+
+The study leverages the **NASA PCoE Li-ion Battery Aging Dataset**, comprising controlled cycle-life experiments on four commercial 18650 cylindrical cells (model Sony US18650VTC, nominal 3.7 V, 2.6 Ah):
+
+- **Cell IDs**: B0005, B0006, B0007, B0018
+- **Total Cycles**: 616 galvanostatic discharge cycles
+- **Sampling Frequency**: 6 Hz (≈167 ms resolution)
 - **Access**: <https://data.nasa.gov/dataset/Li-ion-Battery-Aging-Datasets/uj5r-zjdb>.
+
+### Experimental Protocol
+
+Each cycle followed a standardised **charge-then-discharge** protocol:
+
+1. **Charging Phase**:
+   - Constant-current charging at 1.5 A from rest to 4.2 V (end-of-charge voltage).
+   - Constant-voltage hold at 4.2 V until current dropped below 20 mA.
+   - Typical charge time: 70–80 minutes.
+
+2. **Resting Phase**:
+   - 30-minute rest at open-circuit voltage to reach thermal equilibrium.
+
+3. **Discharging Phase**:
+   - Galvanostatic discharge at 1.5 A from 4.2 V to 2.7 V end-of-discharge voltage.
+   - Typical discharge time: 90–110 minutes (depending on state of health).
+
+4. **Measurements Recorded**:
+   - Instantaneous voltage (V)
+   - Instantaneous current (A)
+   - Cell surface temperature (°C)
+   - **Discharged capacity** (Ah) — the primary degradation indicator
+   - Cycle number and timestamp
+
+### Why This Experiment Is Important
+
+**Relevance to Real-World Applications:**
+
+- The 1.5 A discharge rate (≈0.58C for a 2.6 Ah cell) approximates consumer device duty cycles (e.g., power tools, electric vehicles at moderate discharge).
+- The 4.2 V charging ceiling is industry-standard; systematic voltage stress is a primary aging accelerant.
+- 600+ cycles represent ≈2–3 years of typical consumer usage, bridging laboratory timescales with practical warranties.
+
+**Degradation Signature:**
+
+- Capacity fade is the **most observable metric** of cell aging, directly impacting run-time and user experience.
+- Capacity typically decays exponentially, dropping ≈2–5% per 100 cycles before potential thermal runaway or lithium plating at extreme degradation.
+- The NASA dataset captures this fade trajectory at high resolution, enabling precise forecasting of end-of-life (typically defined as 80% state of health).
+
+**Reproducibility and Accessibility:**
+
+- Publicly available raw data eliminates proprietary barriers and allows reproducible benchmarking.
+- Multiple cells (B0005–B0018) reveal cell-to-cell variability, which is critical for designing robust predictive algorithms.
+- High-frequency telemetry (6 Hz) enables feature extraction of charging/discharging dynamics, temperature transients, and voltage hysteresis—all implicated in degradation mechanisms.
+
+**Machine Learning Opportunity:**
+
+- While physics-based models (e.g., Single Particle Model, empirical exponential decay) provide mechanistic insight, they struggle to capture:
+  - Stochastic variability between nominally identical cells
+  - Complex interactions between temperature, depth-of-discharge, and current rate
+  - Subtle electrochemical side reactions (solid-electrolyte interface growth, lithium plating).
+- ML surrogates trained on this dataset can infer latent degradation patterns and **transfer to unseen cells or chemistries**, accelerating battery technology adoption.
 
 ## Repository Map
 
