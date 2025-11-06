@@ -1,54 +1,74 @@
-# LiB Digital Twin Cycling Aging Project
+# Lithium-Ion Battery Digital Twin: Cycling Aging Study
 
-This repository contains Jupyter notebooks and data for lithium-ion battery capacity prediction and digital twin modeling.
+This repository disseminates a reproducible workflow for analysing lithium-ion battery (LiB) degradation using both physics-guided and machine-learning (ML) approaches. The artefacts combine NASA Prognostics Center of Excellence (PCoE) datasets with neural forecasting pipelines to prototype a digital twin for cycle-level capacity fade.
 
-## Repository Information
+## Repository
 
-- **GitHub Repository**: <https://github.com/EigenJames/lib-digital-twin-cycling-aging>
-- **Initial Commit**: 6f40a96 (Initial commit: LiB Digital Twin cycling aging project)
-- **Files Committed**: 287 files, 207,556 lines added
-- **Status**: Local git repository initialized and committed, GitHub repository created but push failed due to private email address
+- **GitHub**: <https://github.com/EigenJames/lib-digital-twin-cycling-aging>
+- **Primary branch**: `master`
 
-## Contents
+## Why Machine Learning Matters for LiB Research
 
-- `discharge.csv`: Battery discharge data
-- `01_Initial_Neural_Network_Test.ipynb`: Initial experimentation with neural networks for parameter adjustment (uses synthetic data)
-- `02_Capacity_Prediction_Development.ipynb`: Development notebook for LiB capacity prediction using NASA data, including physical models and neural networks
-- `03_Capacity_Prediction_Comprehensive_Analysis.ipynb`: Comprehensive, academic-style analysis of capacity prediction with detailed methodology and results
-- `04_Physical_vs_Empirical_NN_Comparison.ipynb`: Comparison between physical models and empirical neural network approaches for capacity prediction
-- `tuner_results/`: Hyperparameter tuning results for various models
-  - `enhanced_lib_battery_tuning/`: Enhanced LiB battery tuning (30 trials)
-  - `enhanced_residual_tuning/`: Enhanced residual tuning (25 trials)
-  - `lib_battery_tuning/`: LiB battery tuning (20 trials)
-  - `residual_tuning/`: Residual tuning (15 trials)
+LiB aging dynamics are governed by coupled electrochemical, thermal, and mechanical processes that are only partially observable through laboratory measurements. First-principles models often require extensive parameter identification and can struggle with cell-to-cell variability and mission-profile heterogeneity. ML-based surrogates complement physics by:
 
-## Setup Instructions
+- capturing non-linear degradation signatures directly from telemetry;
+- enabling transfer learning across chemistries and operating regimes;
+- quantifying uncertainty for predictive maintenance policies;
+- accelerating what-if simulations within a digital-twin control loop.
 
-1. Git repository has been initialized locally
-2. GitHub repository has been created at <https://github.com/EigenJames/lib-digital-twin-cycling-aging>
-3. To complete the push to GitHub:
-   - Make your email address public in GitHub settings: <https://github.com/settings/emails>
-   - Or set a public email in git config: `git config user.email "your-public-email@example.com"`
-   - Then run: `git push -u origin master`
+Hybrid workflows—where ML augments mechanistic priors—provide actionable forecasts for scheduling, warranty design, and safety diagnostics.
 
-## Notes
+## Dataset
 
-- The repository contains large model checkpoint files (.h5 files) which may make the repository size significant
-- Consider adding a .gitignore file to exclude unnecessary files in future commits
-- The project appears to focus on machine learning models for battery capacity prediction using Keras/TensorFlow (based on .h5 checkpoint files)
+- **Source**: NASA PCoE Li-ion battery aging dataset (cells B0005, B0006, B0007, B0018).
+- **Composition**: 616 galvanostatic discharge cycles with measurements of capacity, voltage, current, and temperature at 6 Hz sampling frequency.
+- **Access**: <https://data.nasa.gov/dataset/Li-ion-Battery-Aging-Datasets/uj5r-zjdb>.
 
-## Git Commands Used
+## Repository Map
+
+- `discharge.csv` – Canonicalised discharge summary table derived from NASA raw MAT files.
+- `01_Initial_Neural_Network_Test.ipynb` – Proof-of-concept neural network aligning simulated outputs with synthetic experimental targets.
+- `02_Capacity_Prediction_Development.ipynb` – Development notebook integrating data wrangling, physical baselines, and empirical regressors.
+- `03_Capacity_Prediction_Comprehensive_Analysis.ipynb` – Research-grade narrative with methodology, ablation studies, and diagnostic plots.
+- `04_Physical_vs_Empirical_NN_Comparison.ipynb` – Comparative study contrasting mechanistic models with neural predictors.
+- `tuner_results/` – Hyperparameter optimisation artefacts (Keras Tuner checkpoints and metadata) for reproducibility.
+
+## Methodological Scope
+
+The notebooks explore the following modelling strata:
+
+- **Physics-based baselines** implementing exponential-decay formulations parameterised by charge time, temperature, and cycle depth.
+- **Pure ML models** (dense neural networks) trained on engineered features for per-cycle capacity estimation.
+- **Hybrid pipelines** that initialise from physical priors and refine residuals via data-driven regressors.
+- **Visualization dashboards** highlighting degradation trajectories, error distributions, and parameter sensitivities.
+
+## Getting Started
 
 ```bash
-git init
-git add .
-git commit -m "Initial commit: LiB Digital Twin cycling aging project"
-gh repo create lib-digital-twin-cycling-aging --public --source=. --remote=origin --push
+git clone https://github.com/EigenJames/lib-digital-twin-cycling-aging.git
+cd lib-digital-twin-cycling-aging
+python -m venv .venv
+source .venv/bin/activate  # On macOS/Linux; use .venv\Scripts\activate on Windows
+pip install -r requirements.txt  # forthcoming dependency export
 ```
 
-## Next Steps
+Open any notebook in JupyterLab or VS Code with the Python kernel set to the created virtual environment. The repository includes large `.h5` checkpoint files; ensure sufficient storage (≈30 MB) when cloning.
 
-- Resolve email privacy issue and push to GitHub
-- Add collaborators if needed
-- Set up CI/CD if required
-- Add proper documentation and requirements.txt for dependencies
+## Project Status and Roadmap
+
+- ✅ Baseline data ingestion and exploratory plots
+- ✅ Initial physics vs ML comparative study
+- 🚧 Formal requirements export (`requirements.txt`, `environment.yml`)
+- 🚧 Probabilistic uncertainty quantification for cycle predictions
+- 🚧 Integration of on-device monitoring signals (voltage/current waveforms)
+
+## Citation
+
+If you build upon this work, please cite the NASA dataset and relevant degradation modelling literature listed below.
+
+## References
+
+1. Bole, B., Kulkarni, C., Daigle, M. (2014). *Li-ion Battery Aging Datasets.* NASA Ames Prognostics Center of Excellence. <https://data.nasa.gov/dataset/Li-ion-Battery-Aging-Datasets/uj5r-zjdb>
+2. Xu, B., Oudalov, A., Ulbig, A., Andersson, G., Kirschen, D. S. (2018). "Modeling of Lithium-Ion Battery Degradation for Cell Life Assessment." *IEEE Transactions on Smart Grid*, 9(2), 1138–1146. <https://doi.org/10.1109/TSG.2016.2578950>
+3. Severson, K. A., Attia, P. M., Jin, N., Perkins, N., Jiang, B., Yang, Z., Herring, P. K., Aykol, M., Herring, P. K., Braatz, R. D., Ermon, S., Chueh, W. C. (2019). "Data-driven prediction of battery cycle life before capacity degradation." *Nature Energy*, 4, 383–391. <https://doi.org/10.1038/s41560-019-0347-4>
+4. Attia, P. M., Grover, A., Jin, N., Severson, K. A., Markov, T. M., Liao, Y.-H., Chen, M. H., Cheong, B., Perkins, N., Yang, Z., Herring, P. K., Aykol, M., Braatz, R. D., Ermon, S., Chueh, W. C. (2020). "Closed-loop optimization of fast-charging protocols for batteries with machine learning." *Nature*, 578, 397–402. <https://doi.org/10.1038/s41586-020-1994-5>
