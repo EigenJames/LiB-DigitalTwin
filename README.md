@@ -90,9 +90,11 @@ This project implements and contrasts three distinct modeling paradigms for Li-i
 
 ### 1. Physics-Based Baseline Model
 
-A first-principles model based on an exponential decay formulation provides an analytical baseline. Capacity \\(C\\) at cycle \\(i\\) is estimated as:
-\\[ C(i) = C_0 \\cdot e^{-k \\cdot T_c \\cdot i / t} \\]
-where \\(C_0\\) is initial capacity, \\(T_c\\) is cell temperature, \\(t\\) is charge time, and \\(k\\) is an empirical degradation constant. This model encodes fundamental domain knowledge but is limited in its ability to capture cell-specific, non-linear aging dynamics.
+A first-principles model based on an exponential decay formulation provides an analytical baseline. Capacity C at cycle i is estimated as:
+
+$$C(i) = C_0 \cdot e^{-k \cdot T_c \cdot i / t}$$
+
+where C₀ is initial capacity, T_c is cell temperature, t is charge time, and k is an empirical degradation constant. This model encodes fundamental domain knowledge but is limited in its ability to capture cell-specific, non-linear aging dynamics.
 
 ### 2. Purely Data-Driven Neural Network (NN)
 
@@ -105,7 +107,8 @@ This is the core data-driven technique of the project, representing a form of **
 1. **Initial Prediction**: The physics-based model generates an initial capacity forecast. This prediction captures the primary exponential decay trend but contains systematic errors.
 2. **Residual Learning**: A neural network is trained specifically to predict the **residual error** between the physical model's output and the ground-truth experimental data.
 3. **Corrected Forecast**: The final, refined prediction is the sum of the physical model's output and the neural network's learned residual correction.
-   \\[ C_{\\text{final}} = C_{\\text{physical}} + \\text{NN}(X)_{\\text{residual}} \\]
+
+$$C_{\text{final}} = C_{\text{physical}} + \text{NN}(X)_{\text{residual}}$$
 
 This hybrid model constrains the neural network, preventing it from learning non-physical behavior while leveraging its power to model complex, unmodeled degradation phenomena.
 
