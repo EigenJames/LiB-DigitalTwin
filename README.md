@@ -5,7 +5,6 @@ This repository contains Jupyter notebooks and data for lithium-ion battery capa
 ## Repository Information
 
 - **GitHub Repository**: <https://github.com/EigenJames/lib-digital-twin-cycling-aging>
-- **Local Path**: /Volumes/WorkingData/Projects and doccuments/Project_Portfolio/LiB Digital_Twin cycling aging
 - **Initial Commit**: 6f40a96 (Initial commit: LiB Digital Twin cycling aging project)
 - **Files Committed**: 287 files, 207,556 lines added
 - **Status**: Local git repository initialized and committed, GitHub repository created but push failed due to private email address
