@@ -137,11 +137,11 @@ Open any notebook in JupyterLab or VS Code with the Python kernel set to the cre
 
 ## Project Status and Roadmap
 
-- ✅ Baseline data ingestion and exploratory plots
-- ✅ Initial physics vs ML comparative study
-- 🚧 Formal requirements export (`requirements.txt`, `environment.yml`)
-- 🚧 Probabilistic uncertainty quantification for cycle predictions
-- 🚧 Integration of on-device monitoring signals (voltage/current waveforms)
+- Baseline data ingestion and exploratory plots
+- Initial physics vs ML comparative study
+- Formal requirements export (`requirements.txt`, `environment.yml`)
+- Probabilistic uncertainty quantification for cycle predictions
+- Integration of on-device monitoring signals (voltage/current waveforms)
 
 ## Citation
 
